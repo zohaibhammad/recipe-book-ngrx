@@ -28,8 +28,16 @@ import { ShoppingListModule } from './shopping-list/shopping-list.module';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core.module';
 import { AuthModule } from './auth/auth.module';
-import { StoreModule } from '@ngrx/store';
+import { combineReducers, StoreModule } from '@ngrx/store';
 import { shoppingListReducer } from './shopping-list/store/shopping-list.reducer';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from 'src/environments/environment';
+import { authReducer } from './auth/store/auth.reducer';
+import * as fromApp from './store/app.reducer';
+
+// export const rootReducer = combineReducers({
+//   shoppingList: shoppingListReducer,
+// });
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent],
@@ -45,7 +53,11 @@ import { shoppingListReducer } from './shopping-list/store/shopping-list.reducer
     SharedModule,
     CoreModule,
     // AuthModule,   //Commenting it for lazy loading purpose
-    StoreModule.forRoot({ shoppingList: shoppingListReducer }),
+    StoreModule.forRoot(fromApp.appReducer),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
   ],
   providers: [
     // ShoppingListService,
