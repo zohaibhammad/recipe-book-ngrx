@@ -23,6 +23,7 @@ export interface AuthResponse {
 export class AuthService {
   // user = new Subject<User>();
   user = new BehaviorSubject<User>(null);
+  token: string = 'DUMMY';
 
   constructor(
     private http: HttpClient,
@@ -98,7 +99,7 @@ export class AuthService {
     if (loadedUser.token) {
       // this.user.next(loadedUser);
       this.store.dispatch(
-        AuthActions.LOGIN({
+        AuthActions.AUTH_SUCCESS({
           payload: {
             email: loadedUser.email,
             userId: loadedUser.id,
@@ -110,9 +111,18 @@ export class AuthService {
     }
   }
 
+  // autoLogout() {
+  //   if (this.user.getValue() && !this.user.getValue().token) {
+  //     this.logout();
+  //   }
+  // }
+
   autoLogout() {
-    if (this.user.getValue() && !this.user.getValue().token) {
-      this.logout();
+    this.store
+      .select('auth')
+      .subscribe((state) => (this.token = state.user.token));
+    if (!this.token) {
+      this.store.dispatch(AuthActions.LOGOUT());
     }
   }
 
@@ -164,7 +174,9 @@ export class AuthService {
     const user = new User(email, userId, token, expirationDate);
     // this.user.next(user);
     this.store.dispatch(
-      AuthActions.LOGIN({ payload: { email, userId, token, expirationDate } })
+      AuthActions.AUTH_SUCCESS({
+        payload: { email, userId, token, expirationDate },
+      })
     );
     localStorage.setItem('userData', JSON.stringify(user));
   }
