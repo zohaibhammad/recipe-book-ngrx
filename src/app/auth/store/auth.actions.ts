@@ -13,6 +13,7 @@ export const AUTH_SUCCESS = createAction(
       userId: string;
       token: string;
       expirationDate: Date;
+      redirect: boolean;
     };
   }>()
 );

@@ -105,6 +105,7 @@ export class AuthService {
             userId: loadedUser.id,
             token: loadedUser.token,
             expirationDate: new Date(userData._tokenExpirationDate),
+            redirect: false,
           },
         })
       );
@@ -175,7 +176,7 @@ export class AuthService {
     // this.user.next(user);
     this.store.dispatch(
       AuthActions.AUTH_SUCCESS({
-        payload: { email, userId, token, expirationDate },
+        payload: { email, userId, token, expirationDate, redirect: true },
       })
     );
     localStorage.setItem('userData', JSON.stringify(user));

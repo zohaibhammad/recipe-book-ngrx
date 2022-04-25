@@ -40,7 +40,7 @@ export class AppComponent
     // console.log('OnInit');
   }
   ngDoCheck(): void {
-    this.authService.autoLogout();
+    // this.authService.autoLogout();
     // console.log('DoCheck');
   }
   ngOnChanges(changes: SimpleChanges): void {

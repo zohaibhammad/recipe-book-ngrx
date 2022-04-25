@@ -37,6 +37,7 @@ import { authReducer } from './auth/store/auth.reducer';
 import * as fromApp from './store/app.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './auth/store/auth.effects';
+import { RecipesEffects } from './recipes/store/recipes.effects';
 
 // export const rootReducer = combineReducers({
 //   shoppingList: shoppingListReducer,
@@ -57,7 +58,7 @@ import { AuthEffects } from './auth/store/auth.effects';
     CoreModule,
     // AuthModule,   //Commenting it for lazy loading purpose
     StoreModule.forRoot(fromApp.appReducer),
-    EffectsModule.forRoot([AuthEffects]),
+    EffectsModule.forRoot([AuthEffects, RecipesEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
